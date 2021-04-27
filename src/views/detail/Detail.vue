@@ -1,6 +1,6 @@
 <template lang="">
   <div id="detail" :class="{loading: loading}">
-    <detail-nav-bar @navItemClick="navItemClick"></detail-nav-bar>
+    <detail-nav-bar ref="nav" @navItemClick="navItemClick"></detail-nav-bar>
     <scroll @scroll="detailScroll" ref="scroll" :probe-type="3" class="wrapper">
       <detail-swiper :top-images="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
@@ -53,7 +53,7 @@
         recommends: [],
         themeTopY: [],
         loading: true,
-        currentY: 0
+        currentIndex: 0
       }
     },
     created() {
@@ -83,6 +83,7 @@
         this.themeTopY.push(-this.$refs.params.$el.offsetTop)
         this.themeTopY.push(-this.$refs.comment.$el.offsetTop)
         this.themeTopY.push(-this.$refs.recommend.$el.offsetTop)
+        this.themeTopY.push(-Number.MAX_VALUE)
         console.log('this.themeTopY: ', this.themeTopY);
 
         this.loading = false
@@ -91,7 +92,14 @@
         this.$refs.scroll.scrollTo(0, this.themeTopY[index])
       },
       detailScroll(position) {
-        this.currentY = position.y
+        let y = position.y
+        let len = this.themeTopY.length
+        for (let i = 0; i < len - 1; i++) {
+          if(this.currentIndex !== i && (this.themeTopY[i] >= y && this.themeTopY[i+1] < y)) {
+            this.currentIndex = i
+            this.$refs.nav.currentIndex = i 
+          }
+        }
       }
     },
     mounted() {
