@@ -13,7 +13,7 @@
     display: flex;
     background-color: #c6c6c6;
     text-align: center;
-    box-shadow: 0 -1px 1px rgba(0, 0, 0, .3);
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, .05);
 
     position: fixed;
     left: 0;
