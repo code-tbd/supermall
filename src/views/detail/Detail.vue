@@ -10,8 +10,7 @@
       <detail-comment-info ref="comment" :comment-info="commentInfo"></detail-comment-info>
       <goods-list ref="recommend" :goods="recommends"></goods-list>
     </scroll>
-
-
+    <detail-bottom-bar @addToCart="addToCart"></detail-bottom-bar>
   </div>
 </template>
 <script>
@@ -22,6 +21,7 @@
   import DetailGoodsInfo from './childComps/DetailGoodsInfo.vue'
   import DetailParamInfo from './childComps/DetailParamInfo.vue'
   import DetailCommentInfo from './childComps/DetailCommentInfo.vue'
+  import DetailBottomBar from './childComps/DetailBottomBar.vue'
 
   import Scroll from 'components/common/scroll/Scroll.vue'
   import GoodsList from 'components/content/goods/GoodsList.vue'
@@ -39,7 +39,8 @@
       DetailGoodsInfo,
       DetailParamInfo,
       DetailCommentInfo,
-      GoodsList
+      GoodsList,
+      DetailBottomBar
     },
     data() {
       return {
@@ -100,6 +101,16 @@
             this.$refs.nav.currentIndex = i 
           }
         }
+      },
+      addToCart() {
+        console.log('添加到购物车')
+        const product = {}
+        product.image = this.topImages[0]
+        product.title = this.goods.title
+        product.desc = this.goods.desc
+        product.price = this.goods.realPrice
+        product.id = this.id
+        this.$store.commit('addToCart', product)
       }
     },
     mounted() {
@@ -124,7 +135,7 @@
     overflow: hidden;
     position: absolute;
     top: 44px;
-    bottom: 0;
+    bottom: 49px;
   }
 
   .loading {
@@ -144,4 +155,5 @@
     z-index: 9999;
     position: relative;
   }
+
 </style>
