@@ -49,6 +49,5 @@
     bottom: 49px;
     left: 0;
     right: 0;
-    background-color: #bfa;
   }
 </style>
